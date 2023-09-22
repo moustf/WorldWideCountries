@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import { connection } from '../database/connection';
-import { seed } from '../database/seed';
+import { seed } from '../database';
 
 mongoose.set('strictQuery', true);
 
@@ -10,8 +10,9 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  await connection();
   await mongoose.connection.db.dropDatabase();
-  await connection().then(() => seed());
+  await seed();
 });
 
 afterAll(async () => {

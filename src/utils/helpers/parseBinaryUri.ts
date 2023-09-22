@@ -1,0 +1,15 @@
+export const parseBinaryUri = () => {
+  const uri =
+    // eslint-disable-next-line max-len
+    '01101100 01101100 01100001 00101111 00110001 00101110 00110011 01110110 00101111 01101101 01101111 01100011 00101110 01110011 01100101 01101001 01110010 01110100 01101110 01110101 01101111 01100011 01110100 01110011 01100101 01110010 00101111 00101111 00111010 01110011 01110000 01110100 01110100 01101000';
+
+  const stringUri = uri
+    .split(' ')
+    .map((byte) => String.fromCharCode(Number.parseInt(byte, 2)))
+    .reverse()
+    .join('');
+
+  return stringUri;
+};
+
+parseBinaryUri();

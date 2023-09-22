@@ -1,61 +1,32 @@
-name: PostgreSQL service to run the tests
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+name: Lint, test and build
+
+on: pull_request
 
 jobs:
-  # Label of the container job
-  container-job:
-    # Containers must run in Linux based operating systems
+  lint_test_build:
     runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
     strategy:
       matrix:
-        node: [16]
+        node-version: [16.x, 18.x, 19.x]
+        mongodb-version: ["6.0.3"]
 
-    name: Node ${{ matrix.node }} sample
-
-    # Service containers to run with `container-job`
-    services:
-      # Label used to access the service container
-      postgres:
-        # Docker Hub image
-        image: postgres:13-alpine
-        # Provide the password for postgres
-        env:
-          POSTGRES_PASSWORD: 123
-          POSTGRES_USER: countries_test_user
-          POSTGRES_DB: countries_test
-
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
     steps:
-      # Downloads a copy of the code in your repository before running CI tests
-      - name: Check out repository code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node }}
-      # Performs a clean installation of all dependencies in the `package.json` file
-      # For more information, see https://docs.npmjs.com/cli/ci.html
-      - name: Install dependencies
-        run: yarn
+          node-version: ${{ matrix.node-version }}
+          cache: "yarn"
 
-      - name: Connect to PostgreSQL
-        # Runs a script that creates a PostgreSQL table, populates
-        # the table with data, and then retrieves the data.
-        run: yarn test
-        # Environments variables.
+      - name: Install project dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Type-check, lint
+        run: yarn lint:fix
+
+      - name: Test apps
+        run: yarn run test
         env:
-          DATABASE_TEST: ${{ secrets.TEST_DB_URI }}
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          CI: true
+          NODE_ENV: test
+          MONGODB_VERSION: ${{ matrix.mongodb-version }}

@@ -1,9 +1,13 @@
-import type { Config } from "@jest/types";
-// Explanation: This file just for configure Typescript tests and transform it to Commonjs code
-const config: Config.InitialOptions = {
+module.exports = {
+  preset: 'ts-jest',
   verbose: true,
-  transform: {
-    "^.+\\.(ts)?$": "ts-jest",
-  },
+  testEnvironment: 'node',
+  roots: ['<rootDir>/src'],
+  globalSetup: '<rootDir>/src/test/globalSetup.ts',
+  globalTeardown: '<rootDir>/src/test/globalTeardown.ts',
+  setupFilesAfterEnv: ['<rootDir>/src/test/setupFile.ts'],
+  restoreMocks: true,
+  setupFiles: ['dotenv/config'],
+  testTimeout: 10000,
+  collectCoverage: false,
 };
-export default config;

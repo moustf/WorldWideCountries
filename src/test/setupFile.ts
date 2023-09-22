@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 import { connection } from '../database/connection';
-import { seed } from '../database/seed';
+import { seed } from '../database';
 
 mongoose.set('strictQuery', true);
 

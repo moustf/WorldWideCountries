@@ -10,8 +10,9 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  await connection();
   await mongoose.connection.db.dropDatabase();
-  await connection().then(() => seed());
+  await seed();
 });
 
 afterAll(async () => {

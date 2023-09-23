@@ -1,5 +1,3 @@
-import mongoose from 'mongoose';
-
 import { Countries } from '../models';
 import { parseBinaryUri, fetchCountries, reshapeCountriesData, updateCountriesFile } from '../utils';
 import { configs } from '../configs';
@@ -27,8 +25,6 @@ export const seed = async () => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('Something went wrong while seeding the database, ', error);
-  } finally {
-    await mongoose.connection.close();
   }
 };
 

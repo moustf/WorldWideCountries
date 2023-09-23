@@ -2,21 +2,30 @@ import mongoose from 'mongoose';
 
 import { CountriesAttributes } from '../utils';
 
-const currencySchema = new mongoose.Schema({
-  name: String,
-  symbol: { type: String, required: false },
-});
+const currencySchema = new mongoose.Schema(
+  {
+    name: String,
+    symbol: { type: String, required: false },
+  },
+  { _id: false },
+);
+
+const nameSchema = new mongoose.Schema(
+  {
+    official: String,
+    common: String,
+  },
+  { _id: false },
+);
 
 const countriesSchema = new mongoose.Schema<CountriesAttributes>(
   {
     name: {
-      type: Map, // ? Allows for dynamic key and values of a type.
-      of: String,
+      type: nameSchema,
       required: [true, 'Please provide the name object!'],
     },
-    languages: {
-      type: Map,
-      of: String,
+    language: {
+      type: String,
       required: false,
     },
     cca2: {
@@ -32,7 +41,7 @@ const countriesSchema = new mongoose.Schema<CountriesAttributes>(
       required: false,
     },
     currencies: {
-      type: Map,
+      type: Map, // ? Allows for dynamic key and values of a type.
       of: currencySchema,
       required: false,
     },

@@ -5,7 +5,7 @@ export const reshapeCountriesData = (data: any[]) => {
       common,
       official,
     },
-    languages,
+    language: languages ? languages[Object.keys(languages)[0]] : null,
     cca2,
     cca3,
     ccn3,

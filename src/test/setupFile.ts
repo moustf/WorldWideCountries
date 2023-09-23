@@ -9,12 +9,6 @@ beforeAll(async () => {
   await connection().then(() => seed());
 });
 
-beforeEach(async () => {
-  await connection();
-  await mongoose.connection.db.dropDatabase();
-  await seed();
-});
-
 afterAll(async () => {
   await mongoose.disconnect();
 });

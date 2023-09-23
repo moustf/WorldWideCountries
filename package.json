@@ -8,15 +8,16 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production node server.js",
+    "start": "cross-env NODE_ENV=production node src/server.js",
     "dev": "cross-env NODE_ENV=development ts-node-dev --transpile-only src",
     "lint": "cross-env TIMING=1 eslint --ext js,ts src",
     "lint:fix": "cross-env TIMING=1 eslint --ext js,ts --fix src",
     "build:types": "tsc --noEmit",
-    "build:js": "esbuild src/index.ts --bundle --platform=node --target=node16.17 --outfile=server.js",
+    "build:js": "esbuild src/index.ts --bundle --platform=node --target=node16.17 --outfile=src/server.js",
     "build": "yarn build:types && yarn build:js",
     "dbSeed": "cross-env NODE_ENV=development ts-node src/database/seed.ts",
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --runInBand",
+    "startProduction": "yarn build && yarn start",
     "prepare": "husky install"
   },
   "dependencies": {

@@ -3,7 +3,6 @@ import yargs from 'yargs';
 
 import { Countries } from '../models';
 import { parseBinaryUri, fetchCountries, reshapeCountriesData, updateCountriesFile } from '../utils';
-import { configs } from '../configs';
 import { connection } from './connection';
 
 export const seed = async () => {

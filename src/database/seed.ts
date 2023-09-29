@@ -4,6 +4,9 @@ import yargs from 'yargs';
 import { Countries } from '../models';
 import { parseBinaryUri, fetchCountries, reshapeCountriesData, updateCountriesFile } from '../utils';
 import { connection } from './connection';
+import { configs } from '../configs';
+
+const { nodeEnv } = configs;
 
 export const seed = async () => {
   try {
@@ -23,7 +26,7 @@ export const seed = async () => {
     // ? Seed the database with the reshaped countries array.
     await Countries.create(reshapedCountries);
 
-    await mongoose.disconnect();
+    nodeEnv !== 'test' && (await mongoose.disconnect());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log('Something went wrong while seeding the database, ', error);

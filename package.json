@@ -15,7 +15,7 @@
     "build:types": "tsc --noEmit",
     "build:js": "esbuild src/index.ts --bundle --platform=node --target=node16.17 --outfile=src/server.js",
     "build": "yarn build:types && yarn build:js",
-    "dbSeed": "cross-env NODE_ENV=development ts-node src/database/seed.ts",
+    "dbSeed": "cross-env NODE_ENV=development ts-node src/database/seed.ts seed",
     "test": "cross-env NODE_ENV=test jest --detectOpenHandles --runInBand",
     "startProduction": "yarn build && yarn start",
     "prepare": "husky install"
@@ -30,6 +30,7 @@
     "express": "^4.18.2",
     "mongoose": "^7.5.2",
     "morgan": "^1.10.0",
+    "yargs": "^17.7.2",
     "yup": "^1.2.0"
   },
   "devDependencies": {

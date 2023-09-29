@@ -55,4 +55,9 @@ const countriesSchema = new mongoose.Schema<CountriesAttributes>(
   },
 );
 
+countriesSchema.index(
+  { 'name.official': 'text', 'name.common': 'text', cca2: 'text', cca3: 'text', ccn3: 'text' },
+  { name: 'search_text_index', default_language: 'en', language_override: 'en' },
+);
+
 export const Countries = mongoose.model('Countries', countriesSchema);
